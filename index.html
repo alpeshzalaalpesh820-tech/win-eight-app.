@@ -3,128 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Win-Eight Luxury Access</title>
+    <title>Win-Eight Elite</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root { --gold: #facc15; --red: #ef4444; --bg: #050505; }
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
-        
-        /* Premium Background Effect */
-        .luxury-bg {
-            background: radial-gradient(circle at top right, #1a1a1a, #050505);
-            min-height: 100vh;
-        }
-
-        /* Glassmorphism Card */
-        .luxury-card {
-            background: rgba(20, 20, 20, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-top: 1px solid rgba(250, 204, 21, 0.2);
-            border-radius: 30px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
-        }
-
-        /* Golden Button */
-        .gold-btn {
-            background: linear-gradient(135deg, #b48b1d, #facc15, #b48b1d);
-            background-size: 200% auto;
-            color: #000;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: 0.4s;
-            border-radius: 15px;
-        }
-        .gold-btn:active { transform: scale(0.96); opacity: 0.9; }
-        .gold-btn:hover { background-position: right center; }
-
-        /* Input Styling */
-        .premium-input {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid #222;
-            border-radius: 12px;
-            color: white;
-            transition: 0.3s;
-        }
-        .premium-input:focus {
-            border-color: var(--gold);
-            background: rgba(250, 204, 21, 0.05);
-            outline: none;
-            box-shadow: 0 0 15px rgba(250, 204, 21, 0.1);
-        }
-
-        .fade-in { animation: fadeIn 0.8s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .luxury-card { background: #111; border: 1px solid #222; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.7); }
+        .gold-btn { background: linear-gradient(to right, #b48b1d, #facc15); color: #000; font-weight: 800; border-radius: 12px; transition: 0.3s; }
+        .gold-btn:active { transform: scale(0.95); }
+        .intro-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; }
     </style>
 </head>
 <body>
 
-    <div class="luxury-bg flex items-center justify-center p-6">
-        <div class="max-w-md w-full luxury-card p-10 fade-in">
+    <div id="app" class="max-w-md mx-auto min-h-screen">
+        
+        <div id="screen-login" class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+            <h1 class="text-6xl font-black italic mb-2 text-red-600 tracking-tighter">WIN-EIGHT</h1>
+            <p class="text-[10px] tracking-[5px] text-gray-500 mb-12 uppercase">1 Device • 1 Account</p>
             
-            <div class="text-center mb-12">
-                <h1 class="text-6xl font-black italic text-red-600 tracking-tighter mb-2">WIN-EIGHT</h1>
-                <p class="text-[10px] tracking-[5px] text-gray-500 uppercase">Elite Gaming Arena</p>
+            <div class="luxury-card w-full p-8">
+                <input type="number" id="phone" placeholder="Enter Mobile Number" class="w-full bg-transparent border-b-2 border-zinc-800 focus:border-yellow-500 p-4 mb-8 outline-none text-center text-2xl tracking-widest text-white">
+                <button onclick="handleLogin()" class="gold-btn w-full py-4 uppercase text-sm tracking-widest">Verify & Get ₹2 Bonus</button>
             </div>
-
-            <div id="login-step-1">
-                <div class="mb-8">
-                    <label class="text-[10px] text-yellow-500 font-bold uppercase tracking-widest block mb-4">Mobile Verification</label>
-                    <div class="relative">
-                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold">+91</span>
-                        <input type="number" id="phone" placeholder="Enter Mobile Number" 
-                               class="premium-input w-full py-4 pl-14 pr-4 text-xl tracking-widest">
-                    </div>
-                </div>
-
-                <button onclick="requestOTP()" class="gold-btn w-full py-5 mb-6">Get OTP</button>
-                
-                <div class="flex items-center justify-center gap-2 text-green-500 font-bold mb-4">
-                    <span class="text-lg">💰</span>
-                    <span class="text-[11px] uppercase">₹2 Instant Welcome Bonus</span>
-                </div>
-            </div>
-
-            <div id="login-step-2" class="hidden">
-                <div class="mb-8">
-                    <label class="text-[10px] text-yellow-500 font-bold uppercase tracking-widest block mb-4">Enter 4-Digit OTP</label>
-                    <div class="flex justify-between gap-3">
-                        <input type="number" class="premium-input w-14 h-14 text-center text-2xl font-bold otp-field">
-                        <input type="number" class="premium-input w-14 h-14 text-center text-2xl font-bold otp-field">
-                        <input type="number" class="premium-input w-14 h-14 text-center text-2xl font-bold otp-field">
-                        <input type="number" class="premium-input w-14 h-14 text-center text-2xl font-bold otp-field">
-                    </div>
-                </div>
-
-                <button onclick="verifyAndEnter()" class="gold-btn w-full py-5 mb-6">Verify & Login</button>
-                <p class="text-center text-xs text-gray-600 uppercase tracking-widest cursor-pointer hover:text-white" onclick="location.reload()">Resend OTP</p>
-            </div>
-
-            <p class="text-center text-[9px] text-gray-700 uppercase tracking-[3px] mt-8">
-                Secure 256-bit Encrypted Access
-            </p>
         </div>
+
+        <div id="screen-intro" class="intro-overlay hidden">
+            <div class="luxury-card p-8 w-full text-center">
+                <h2 class="text-3xl font-black text-yellow-500 mb-4 italic">KAISE KHELTE HAIN?</h2>
+                <div class="text-gray-400 text-sm space-y-4 mb-10 text-left">
+                    <p>1. Apna Lucky Number chunein.</p>
+                    <p>2. Round khatam hone par 2 numbers gayab honge.</p>
+                    <p>3. Agar aapka number bach gaya, toh aap **Winaer** hain!</p>
+                    <p class="text-red-500 font-bold">⚠️ Ek mobile mein ek hi account chalega.</p>
+                </div>
+                <button onclick="showDashboard()" class="gold-btn w-full py-4 rounded-xl">SAMJH GAYA, START GAME</button>
+            </div>
+        </div>
+
+        <div id="screen-dashboard" class="hidden p-4">
+            <div class="luxury-card p-6 flex justify-between items-center mb-6 border-yellow-500/20">
+                <div>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest">Total Balance</p>
+                    <h2 class="text-4xl font-black text-yellow-500">₹<span id="balance">2.00</span></h2>
+                </div>
+                <button class="bg-red-600/20 text-red-500 px-4 py-2 rounded-lg border border-red-600/50 text-[10px] font-bold">WITHDRAW</button>
+            </div>
+
+            <div class="luxury-card p-5 mb-6 border-green-900/30">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-green-500 font-bold text-xs uppercase">Refer & Earn ₹2</p>
+                        <p class="text-[9px] text-gray-500">Dost download karega toh ₹2 milenge</p>
+                    </div>
+                    <button onclick="copyRef()" class="bg-zinc-900 text-white px-4 py-2 rounded text-[10px] border border-zinc-700">Copy Link</button>
+                </div>
+            </div>
+
+            <div class="luxury-card p-8 text-center relative overflow-hidden" onclick="alert('Table Joining...')">
+                <div class="absolute top-0 right-0 bg-red-600 text-white px-3 py-1 text-[9px] font-bold">LIVE</div>
+                <h3 class="text-2xl font-black italic mb-1">GOLD ARENA</h3>
+                <p class="text-gray-500 text-[10px] mb-6 uppercase tracking-widest">Min Bet: ₹4 | Max: ₹50</p>
+                <button class="w-full py-4 rounded-xl bg-yellow-500/10 border border-yellow-500 text-yellow-500 font-bold uppercase text-xs">Play Level 1</button>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        function requestOTP() {
-            const phone = document.getElementById('phone').value;
-            if(phone.length < 10) {
-                alert("Please enter a valid 10-digit number");
-                return;
+        // Check if user already logged in (1 mobile 1 game logic)
+        window.onload = function() {
+            if(localStorage.getItem('win8_user')) {
+                // Agar pehle se login hai toh seedha dashboard dikhao
+                showDashboard();
             }
-            
-            // UI Switch to OTP
-            document.getElementById('login-step-1').classList.add('hidden');
-            document.getElementById('login-step-2').classList.remove('hidden');
-            document.getElementById('login-step-2').classList.add('fade-in');
         }
 
-        function verifyAndEnter() {
-            // Yahan se aapka game dashboard khulega
-            alert("Verification Successful! ₹2 Bonus Added.");
-            window.location.href = "#"; // Replace with your game link
+        function handleLogin() {
+            let phone = document.getElementById('phone').value;
+            if(phone.length < 10) { alert("Mobile number sahi nahi hai!"); return; }
+            
+            // Save device lock
+            localStorage.setItem('win8_user', phone);
+            
+            // Show Intro
+            document.getElementById('screen-login').classList.add('hidden');
+            document.getElementById('screen-intro').classList.remove('hidden');
+        }
+
+        function showDashboard() {
+            document.getElementById('screen-login').classList.add('hidden');
+            document.getElementById('screen-intro').classList.add('hidden');
+            document.getElementById('screen-dashboard').classList.remove('hidden');
+        }
+
+        function copyRef() {
+            let link = "https://glistening-salamander-e8529b.netlify.app/?ref=" + localStorage.getItem('win8_user');
+            navigator.clipboard.writeText(link);
+            alert("Referral Link Copied: " + link);
         }
     </script>
 </body>
