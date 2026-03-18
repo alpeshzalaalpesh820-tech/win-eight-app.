@@ -3,105 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Win-Eight Official Elite</title>
+    <title>Win-Eight Luxury Access</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root { --gold: #facc15; --red: #ef4444; --green: #22c55e; --bg: #0d0d0d; }
-        body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; touch-action: manipulation; }
-        .luxury-card { background: #141414; border: 1px solid #262626; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .gold-btn { background: var(--gold); color: #000; font-weight: 800; border-radius: 12px; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; }
-        .gold-btn:active { transform: scale(0.98); opacity: 0.8; }
-        .num-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-        .num-slot { height: 65px; background: #1a1a1a; border: 1px solid #333; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; position: relative; cursor: pointer; transition: 0.2s; }
-        .selected { border: 2px solid var(--gold) !important; box-shadow: 0 0 15px rgba(250, 204, 21, 0.3); }
-        .selected::after { content: 'MERA'; position: absolute; bottom: 5px; font-size: 8px; color: var(--gold); font-weight: 900; }
-        .rad-x { background: rgba(239, 68, 68, 0.1) !important; border-color: var(--red) !important; color: transparent !important; animation: shake 0.3s; }
-        .rad-x::before { content: '✕'; position: absolute; font-size: 28px; color: var(--red); }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-        .fade-in { animation: fadeIn 0.5s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        :root { --gold: #facc15; --red: #ef4444; --bg: #050505; }
+        body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        
+        /* Premium Background Effect */
+        .luxury-bg {
+            background: radial-gradient(circle at top right, #1a1a1a, #050505);
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism Card */
+        .luxury-card {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(250, 204, 21, 0.2);
+            border-radius: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
+        }
+
+        /* Golden Button */
+        .gold-btn {
+            background: linear-gradient(135deg, #b48b1d, #facc15, #b48b1d);
+            background-size: 200% auto;
+            color: #000;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.4s;
+            border-radius: 15px;
+        }
+        .gold-btn:active { transform: scale(0.96); opacity: 0.9; }
+        .gold-btn:hover { background-position: right center; }
+
+        /* Input Styling */
+        .premium-input {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid #222;
+            border-radius: 12px;
+            color: white;
+            transition: 0.3s;
+        }
+        .premium-input:focus {
+            border-color: var(--gold);
+            background: rgba(250, 204, 21, 0.05);
+            outline: none;
+            box-shadow: 0 0 15px rgba(250, 204, 21, 0.1);
+        }
+
+        .fade-in { animation: fadeIn 0.8s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-    <div id="app" class="max-w-md mx-auto min-h-screen fade-in">
-        <div id="screen-login" class="min-h-screen flex flex-col items-center justify-center p-4">
-            <h1 class="text-5xl font-black italic mb-2 text-red-600 tracking-tighter">WIN-EIGHT</h1>
-            <p class="text-[10px] tracking-[5px] text-gray-500 mb-12 uppercase text-center">Official Gaming Arena</p>
-            <div class="luxury-card w-full p-8 text-center">
-                <input type="number" id="phone" placeholder="Mobile Number" class="w-full bg-transparent border-b border-yellow-500 p-4 mb-6 outline-none text-center text-xl tracking-wider placeholder:text-gray-800 text-white">
-                <button onclick="doLogin()" class="gold-btn w-full py-4 text-sm">Verify OTP</button>
-                <p class="mt-6 text-green-500 text-xs font-bold">💰 ₹2 Welcome Bonus Added</p>
-            </div>
-        </div>
 
-        <div id="screen-dashboard" class="hidden p-4">
-            <div class="luxury-card w-full p-6 flex justify-between items-center mb-6">
-                <div><p class="text-xs text-gray-500">WALLET</p><h2 class="text-3xl font-black text-yellow-500">₹2.00</h2></div>
-                <button class="bg-red-950/40 text-red-500 px-4 py-2 rounded-xl text-xs font-bold border border-red-900">Withdraw</button>
+    <div class="luxury-bg flex items-center justify-center p-6">
+        <div class="max-w-md w-full luxury-card p-10 fade-in">
+            
+            <div class="text-center mb-12">
+                <h1 class="text-6xl font-black italic text-red-600 tracking-tighter mb-2">WIN-EIGHT</h1>
+                <p class="text-[10px] tracking-[5px] text-gray-500 uppercase">Elite Gaming Arena</p>
             </div>
-            <div class="luxury-card w-full p-6 relative overflow-hidden" onclick="showLevel()">
-                <div class="absolute top-0 right-0 bg-yellow-500 text-black px-4 py-1 text-[10px] font-bold">LEVEL 1</div>
-                <h3 class="text-xl font-bold mb-1 italic uppercase">Beginner Table</h3>
-                <p class="text-gray-500 text-xs mb-6">Bet: ₹4 - ₹50 | 10 Players</p>
-                <button class="w-full py-4 bg-yellow-950/30 rounded-2xl text-yellow-500 font-bold text-xs border border-yellow-900">PLAY NOW</button>
-            </div>
-        </div>
 
-        <div id="screen-game" class="hidden p-4">
-            <div class="flex justify-between items-center mb-6">
-                <button onclick="location.reload()" class="text-gray-500">← Exit</button>
-                <p class="font-bold text-green-500">10 / 10 Players Joined</p>
-            </div>
-            <div class="luxury-card w-full p-6 text-center">
-                <div id="game-grid" class="num-grid mb-8"></div>
-                <div class="flex items-center justify-center gap-6 mb-8">
-                    <button onclick="adjBet(-5)" class="text-2xl text-gray-500 border border-gray-800 w-12 h-12 rounded-xl">-</button>
-                    <span id="bet-amt" class="text-5xl font-black text-yellow-500">₹10</span>
-                    <button onclick="adjBet(5)" class="text-2xl text-gray-500 border border-gray-800 w-12 h-12 rounded-xl">+</button>
+            <div id="login-step-1">
+                <div class="mb-8">
+                    <label class="text-[10px] text-yellow-500 font-bold uppercase tracking-widest block mb-4">Mobile Verification</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold">+91</span>
+                        <input type="number" id="phone" placeholder="Enter Mobile Number" 
+                               class="premium-input w-full py-4 pl-14 pr-4 text-xl tracking-widest">
+                    </div>
                 </div>
-                <button id="spin-btn" onclick="runSpin()" class="gold-btn w-full py-5 text-xl">Confirm Bet</button>
+
+                <button onclick="requestOTP()" class="gold-btn w-full py-5 mb-6">Get OTP</button>
+                
+                <div class="flex items-center justify-center gap-2 text-green-500 font-bold mb-4">
+                    <span class="text-lg">💰</span>
+                    <span class="text-[11px] uppercase">₹2 Instant Welcome Bonus</span>
+                </div>
             </div>
-        </div>
-        
-        <div id="res-win" class="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-6 hidden">
-            <div class="luxury-card w-full p-8 text-center border-green-500 border-2">
-                <h2 class="text-4xl font-black text-green-500 mb-2 italic">Aap Jeete!</h2>
-                <p class="text-gray-400 text-sm mb-6 uppercase">Number Selected: <span id="my-num" class="text-white"></span></p>
-                <h3 class="text-2xl font-bold mb-8">+₹12 Added! 🎉</h3>
-                <button onclick="location.reload()" class="gold-btn w-full py-4">Play Again</button>
+
+            <div id="login-step-2" class="hidden">
+                <div class="mb-8">
+                    <label class="text-[10px] text-yellow-500 font-bold uppercase tracking-widest block mb-4">Enter 4-Digit OTP</label>
+                    <div class="flex justify-between gap-3">
+                        <input type="number" class="premium-input w-14 h-14 text-center text-2xl font-bold otp-field">
+                        <input type="number" class="premium-input w-14 h-14 text-center text-2xl font-bold otp-field">
+                        <input type="number" class="premium-input w-14 h-14 text-center text-2xl font-bold otp-field">
+                        <input type="number" class="premium-input w-14 h-14 text-center text-2xl font-bold otp-field">
+                    </div>
+                </div>
+
+                <button onclick="verifyAndEnter()" class="gold-btn w-full py-5 mb-6">Verify & Login</button>
+                <p class="text-center text-xs text-gray-600 uppercase tracking-widest cursor-pointer hover:text-white" onclick="location.reload()">Resend OTP</p>
             </div>
+
+            <p class="text-center text-[9px] text-gray-700 uppercase tracking-[3px] mt-8">
+                Secure 256-bit Encrypted Access
+            </p>
         </div>
     </div>
 
     <script>
-        let bet=10, selected=null;
-        function doLogin() { 
-            if(document.getElementById('phone').value.length<10) return alert("Number sahi dalein!");
-            document.getElementById('screen-login').classList.add('hidden');
-            document.getElementById('screen-dashboard').classList.remove('hidden');
-        }
-        function showLevel() {
-            document.getElementById('screen-dashboard').classList.add('hidden');
-            document.getElementById('screen-game').classList.remove('hidden');
-            const g = document.getElementById('game-grid'); g.innerHTML = '';
-            for(let i=1; i<=10; i++) {
-                let s = document.createElement('div'); s.className='num-slot'; s.innerText=i;
-                s.onclick=()=>{ document.querySelectorAll('.num-slot').forEach(x=>x.classList.remove('selected')); s.classList.add('selected'); selected=i; };
-                g.appendChild(s);
+        function requestOTP() {
+            const phone = document.getElementById('phone').value;
+            if(phone.length < 10) {
+                alert("Please enter a valid 10-digit number");
+                return;
             }
+            
+            // UI Switch to OTP
+            document.getElementById('login-step-1').classList.add('hidden');
+            document.getElementById('login-step-2').classList.remove('hidden');
+            document.getElementById('login-step-2').classList.add('fade-in');
         }
-        function adjBet(v) { bet=Math.max(4, Math.min(50, bet+v)); document.getElementById('bet-amt').innerText='₹'+bet; }
-        function runSpin() {
-            if(!selected) return alert("Number chuno!");
-            document.getElementById('spin-btn').innerText = "Spinning...";
-            setTimeout(() => {
-                let slots = document.querySelectorAll('.num-slot');
-                slots[Math.floor(Math.random()*10)].classList.add('rad-x');
-                setTimeout(() => {
-                    document.getElementById('my-num').innerText = selected;
-                    document.getElementById('res-win').classList.remove('hidden');
-                }, 2000);
-            }, 2000);
+
+        function verifyAndEnter() {
+            // Yahan se aapka game dashboard khulega
+            alert("Verification Successful! ₹2 Bonus Added.");
+            window.location.href = "#"; // Replace with your game link
         }
     </script>
 </body>
