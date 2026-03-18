@@ -3,135 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Win-Eight | Beginner Arena</title>
+    <title>Win-Eight Elite Arena</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root { --gold: #facc15; --red: #ef4444; --bg: #050505; }
-        body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
         .luxury-card { background: linear-gradient(145deg, #0f0f0f, #141414); border: 1px solid #222; border-radius: 24px; }
-        .gold-btn { background: linear-gradient(135deg, #b48b1d, #facc15, #b48b1d); color: #000; font-weight: 900; border-radius: 12px; transition: 0.3s; }
+        .gold-btn { background: linear-gradient(135deg, #b48b1d, #facc15, #b48b1d); color: #000; font-weight: 900; border-radius: 12px; transition: 0.3s; text-transform: uppercase; }
         .gold-btn:active { transform: scale(0.95); }
-        .num-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
-        .num-slot { height: 60px; background: #1a1a1a; border: 1px solid #333; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .num-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        .num-slot { height: 55px; background: #1a1a1a; border: 1px solid #333; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .selected { border: 2px solid var(--gold); box-shadow: 0 0 15px rgba(250, 204, 21, 0.3); background: #222; }
         .loser-slot { background: rgba(239, 68, 68, 0.1) !important; border-color: var(--red) !important; color: var(--red) !important; position: relative; }
         .loser-slot::after { content: '✕'; position: absolute; font-size: 20px; }
+        .mode-btn { padding: 8px 12px; border-radius: 10px; font-size: 10px; font-weight: bold; border: 1px solid #333; transition: 0.3s; }
+        .mode-active { border-color: var(--gold); color: var(--gold); background: rgba(250, 204, 21, 0.05); }
     </style>
 </head>
-<body>
+<body class="p-4">
 
-    <div id="app" class="max-w-md mx-auto min-h-screen p-4">
-        
-        <div class="flex justify-between items-center mb-6 px-2">
-            <div>
-                <p class="text-[10px] text-zinc-500 uppercase tracking-widest">Level 1: Beginner</p>
-                <h2 class="text-2xl font-black text-yellow-500 italic">ARENA G2</h2>
-            </div>
-            <div class="text-right">
-                <p class="text-[10px] text-zinc-500 uppercase">Wallet</p>
-                <h2 id="wallet-bal" class="text-xl font-bold text-green-500">₹2.00</h2>
-            </div>
+    <div class="mb-6">
+        <p class="text-[10px] text-zinc-500 uppercase tracking-widest mb-3">Select Game Mode</p>
+        <div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+            <button onclick="setMode('G3')" id="btn-G3" class="mode-btn whitespace-nowrap">G3: RISK TAKER (60%)</button>
+            <button onclick="setMode('G4')" id="btn-G4" class="mode-btn whitespace-nowrap">G4: SAFE PLAY (90%)</button>
         </div>
-
-        <div class="luxury-card p-6 mb-6">
-            <div class="flex justify-between items-center mb-6">
-                <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-tighter">Choose Your Lucky Number</span>
-                <span class="text-[10px] bg-red-600/20 text-red-500 px-2 py-1 rounded">10 Players Joined</span>
-            </div>
-
-            <div id="grid" class="num-grid mb-10">
-                </div>
-
-            <div class="flex items-center justify-around mb-8 bg-zinc-900/50 p-4 rounded-2xl border border-zinc-800">
-                <button onclick="changeBet(-5)" class="text-2xl text-zinc-600 font-bold w-10 h-10 border border-zinc-700 rounded-full">-</button>
-                <div class="text-center">
-                    <p class="text-[9px] text-zinc-500 uppercase mb-1">Bet Amount</p>
-                    <h3 id="bet-display" class="text-3xl font-black text-white">₹10</h3>
-                </div>
-                <button onclick="changeBet(5)" class="text-2xl text-zinc-600 font-bold w-10 h-10 border border-zinc-700 rounded-full">+</button>
-            </div>
-
-            <button id="play-btn" onclick="startSpin()" class="gold-btn w-full py-5 text-lg shadow-lg shadow-yellow-500/10">Confirm & Spin</button>
-        </div>
-
-        <div class="luxury-card p-4 border-zinc-800/50">
-            <div class="flex justify-between text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                <span>Winner Payout: <span class="text-green-500" id="payout-text">₹12.00</span></span>
-                <span>Odds: 80% (G2)</span>
-            </div>
-        </div>
-
     </div>
 
-    <div id="win-modal" class="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-6 hidden">
-        <div class="luxury-card w-full p-10 text-center border-green-500 border-2 scale-in">
-            <h2 class="text-5xl font-black text-green-500 mb-2 italic">WINNER!</h2>
-            <p class="text-zinc-400 text-xs mb-8 uppercase tracking-widest">Aapka number safe raha</p>
-            <h3 id="win-amt" class="text-3xl font-bold text-white mb-10">+₹12.00</h3>
-            <button onclick="location.reload()" class="gold-btn w-full py-4 rounded-xl">Play Next Round</button>
+    <div class="luxury-card p-6 mb-6">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h3 id="mode-title" class="text-xl font-black text-white italic tracking-tighter">G3 RISK TAKER</h3>
+                <p id="mode-odds" class="text-[9px] text-red-500 font-bold uppercase">Medium Risk: 4 Losers</p>
+            </div>
+            <div class="text-right">
+                <p class="text-[9px] text-zinc-500 uppercase">Payout</p>
+                <h2 id="payout-display" class="text-xl font-black text-green-500 italic">₹14.00</h2>
+            </div>
+        </div>
+
+        <div id="grid" class="num-grid mb-8"></div>
+
+        <div class="flex items-center justify-between mb-8 bg-zinc-950 p-4 rounded-2xl border border-zinc-900">
+            <button onclick="adjBet(-5)" class="w-10 h-10 rounded-full border border-zinc-800 text-zinc-500">-</button>
+            <div class="text-center">
+                <span class="text-[9px] text-zinc-600 block uppercase">Your Bet</span>
+                <span id="bet-amt" class="text-3xl font-black text-yellow-500">₹10</span>
+            </div>
+            <button onclick="adjBet(5)" class="w-10 h-10 rounded-full border border-zinc-800 text-zinc-500">+</button>
+        </div>
+
+        <button id="spin-btn" onclick="playGame()" class="gold-btn w-full py-5 shadow-lg shadow-yellow-500/20">Confirm Bet</button>
+    </div>
+
+    <div class="luxury-card p-4 border-zinc-900/50">
+        <div class="flex justify-between items-center text-[10px] font-bold">
+            <span class="text-zinc-500 uppercase">Win-Eight Official Arena</span>
+            <span class="text-green-500 uppercase tracking-widest">Platform Profit Secure</span>
         </div>
     </div>
 
     <script>
-        let currentBet = 10;
-        let selectedNum = null;
-        let wallet = 2.00;
+        let mode = 'G3';
+        let bet = 10;
+        let selected = null;
 
-        // Initialize Grid
-        const grid = document.getElementById('grid');
-        for(let i=1; i<=10; i++) {
-            let slot = document.createElement('div');
-            slot.className = 'num-slot';
-            slot.innerText = i;
-            slot.onclick = () => selectNumber(i, slot);
-            grid.appendChild(slot);
+        const config = {
+            'G3': { losers: 4, odds: '60%', title: 'G3 Risk Taker', sub: 'Medium Risk: 4 Losers', mult: 1.4 },
+            'G4': { losers: 1, odds: '90%', title: 'G4 Safe Play', sub: 'Extreme Safe: 1 Loser', mult: 1.1 }
+        };
+
+        function initGrid() {
+            const g = document.getElementById('grid'); g.innerHTML = '';
+            for(let i=1; i<=10; i++) {
+                let s = document.createElement('div');
+                s.className = 'num-slot'; s.innerText = i;
+                s.onclick = () => {
+                    document.querySelectorAll('.num-slot').forEach(x => x.classList.remove('selected'));
+                    s.classList.add('selected'); selected = i;
+                };
+                g.appendChild(s);
+            }
         }
 
-        function selectNumber(num, el) {
-            document.querySelectorAll('.num-slot').forEach(s => s.classList.remove('selected'));
-            el.classList.add('selected');
-            selectedNum = num;
+        function setMode(m) {
+            mode = m;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('mode-active'));
+            document.getElementById('btn-'+m).classList.add('mode-active');
+            document.getElementById('mode-title').innerText = config[m].title;
+            document.getElementById('mode-odds').innerText = config[m].sub;
+            updatePayout();
         }
 
-        function changeBet(val) {
-            currentBet = Math.max(4, Math.min(50, currentBet + val));
-            document.getElementById('bet-display').innerText = '₹' + currentBet;
-            
-            // Payout Logic as per your sheet
-            // G2: ₹10 bet -> ₹12 payout | ₹50 bet -> ₹60 payout
-            let payout = currentBet * 1.2; 
-            document.getElementById('payout-text').innerText = '₹' + payout.toFixed(2);
+        function adjBet(v) {
+            bet = Math.max(4, Math.min(50, bet + v));
+            document.getElementById('bet-amt').innerText = '₹' + bet;
+            updatePayout();
         }
 
-        function startSpin() {
-            if(!selectedNum) return alert("Pehle ek number chunein!");
-            
-            const btn = document.getElementById('play-btn');
-            btn.disabled = true;
-            btn.innerText = "Spinning...";
+        function updatePayout() {
+            // Logic matching your sheet
+            // G3: 10 bet -> 14 win (₹4 profit) | 50 bet -> 70 win (₹20 profit)
+            // G4: 10 bet -> 11 win (₹1 profit) | 50 bet -> 54 win (₹4 profit)
+            let finalPayout;
+            if(mode === 'G3') {
+                finalPayout = (bet === 50) ? 70 : bet + 4; 
+            } else {
+                finalPayout = (bet === 50) ? 54 : bet + 1;
+            }
+            document.getElementById('payout-display').innerText = '₹' + finalPayout.toFixed(2);
+        }
 
-            // Game Logic: 80% Winning Chance (8 winners, 2 losers)
+        function playGame() {
+            if(!selected) return alert("Number chunein!");
+            const btn = document.getElementById('spin-btn');
+            btn.disabled = true; btn.innerText = "Processing...";
+
             setTimeout(() => {
                 let slots = document.querySelectorAll('.num-slot');
-                let loser1 = Math.floor(Math.random() * 10);
-                let loser2 = (loser1 + 3) % 10; // 2 losers logic
+                let losersCount = config[mode].losers;
+                let losersIdx = [];
 
-                slots[loser1].classList.add('loser-slot');
-                slots[loser2].classList.add('loser-slot');
+                while(losersIdx.length < losersCount) {
+                    let r = Math.floor(Math.random() * 10);
+                    if(!losersIdx.includes(r)) losersIdx.push(r);
+                }
+
+                losersIdx.forEach(idx => slots[idx].classList.add('loser-slot'));
 
                 setTimeout(() => {
-                    if(selectedNum !== (loser1+1) && selectedNum !== (loser2+1)) {
-                        // Winner
-                        let finalWin = currentBet * 1.2;
-                        document.getElementById('win-amt').innerText = '+₹' + finalWin.toFixed(2);
-                        document.getElementById('win-modal').classList.remove('hidden');
+                    if(!losersIdx.includes(selected - 1)) {
+                        alert("CONGRATS! Aap Jeet Gaye!");
                     } else {
-                        alert("Oops! Aapka number bahar ho gaya. Fir se koshish karein.");
-                        location.reload();
+                        alert("LOSE! Aapka number hat gaya.");
                     }
+                    location.reload();
                 }, 1500);
             }, 2000);
         }
+
+        initGrid();
+        setMode('G3');
     </script>
 </body>
 </html>
