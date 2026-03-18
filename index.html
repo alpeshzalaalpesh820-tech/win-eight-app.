@@ -1,42 +1,100 @@
-<!DOCTYPE html>
+<!DOCTYPE html>  
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Win-Eight | Premium Gaming</title>
+    <title>Win-Eight | Official Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #0d0d0d; color: #d4af37; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
-        .login-box { background: #1a1a1a; padding: 40px; border-radius: 20px; border: 2px solid #d4af37; width: 320px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        h1 { color: #fff; letter-spacing: 3px; margin-bottom: 5px; font-size: 32px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        .tagline { color: #888; font-size: 14px; margin-bottom: 25px; }
-        input { width: 100%; padding: 14px; margin: 12px 0; border-radius: 10px; border: 1px solid #333; background: #262626; color: #fff; box-sizing: border-box; font-size: 16px; outline: none; }
-        input:focus { border-color: #d4af37; box-shadow: 0 0 5px #d4af37; }
-        .btn { width: 100%; padding: 14px; background: linear-gradient(45deg, #d4af37, #f9e29b); border: none; border-radius: 10px; color: #000; font-weight: bold; cursor: pointer; font-size: 18px; margin-top: 10px; transition: 0.3s; }
-        .btn:active { transform: scale(0.98); }
-        .bonus-tag { background: rgba(0, 255, 0, 0.1); color: #00ff00; padding: 8px; border-radius: 8px; font-size: 13px; margin-top: 20px; border: 1px dashed #00ff00; }
-        .footer-info { margin-top: 25px; font-size: 11px; color: #555; letter-spacing: 1px; }
+        body { background-color: #000; color: #fff; font-family: sans-serif; }
+        .gold-border { border: 2px solid #D4AF37; }
+        .gold-text { color: #D4AF37; }
+        .gold-bg { background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%); color: #000; font-weight: bold; }
+        .step-card { background: #111; border-left: 4px solid #D4AF37; padding: 15px; margin-bottom: 15px; border-radius: 0 15px 15px 0; }
+        .number-box { border: 1px solid #444; padding: 5px 10px; border-radius: 5px; margin: 2px; display: inline-block; font-size: 12px; }
+        .red-rad { border-color: red; color: red; text-decoration: line-through; }
     </style>
 </head>
-<body>
-    <div class="login-box">
-        <h1>WIN-EIGHT</h1>
-        <div class="tagline">The Ultimate Number Game</div>
-        <input type="number" id="phone" placeholder="Mobile Number">
-        <input type="password" id="pin" placeholder="Enter PIN">
-        <button class="btn" onclick="checkLogin()">START WINNING</button>
-        <div class="bonus-tag">💰 ₹2 Instant Bonus on Login</div>
-        <div class="footer-info">SECURE • PRIVATE • TRUSTED</div>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div id="login-screen" class="w-full max-w-sm p-8 bg-[#111] rounded-3xl text-center gold-border">
+        <h1 class="text-4xl font-black mb-1 gold-text italic">WIN-EIGHT</h1>
+        <p class="text-gray-500 text-[10px] mb-8 tracking-[4px] uppercase">The Elite Number Game</p>
+        
+        <input type="number" id="phone" placeholder="Mobile Number" class="w-full p-4 mb-4 rounded-xl bg-[#222] border border-gray-800 outline-none focus:border-[#D4AF37] text-white">
+        <input type="password" id="pin" placeholder="Enter PIN (1234)" class="w-full p-4 mb-8 rounded-xl bg-[#222] border border-gray-800 outline-none focus:border-[#D4AF37] text-white">
+        
+        <button onclick="checkLogin()" class="w-full p-4 rounded-xl gold-bg text-lg shadow-lg active:scale-95 transition-transform">
+            START WINNING
+        </button>
+        <div class="mt-6 p-2 border border-dashed border-green-900 rounded-lg">
+            <p class="text-green-500 text-sm font-bold">💰 ₹2 Welcome Bonus Available</p>
+        </div>
+    </div>
+
+    <div id="intro-screen" class="hidden w-full max-w-md p-6 bg-[#111] rounded-3xl gold-border shadow-2xl">
+        <div class="text-center mb-6">
+            <h2 class="text-2xl font-bold gold-text uppercase tracking-wider">Game Process</h2>
+            <div class="h-1 w-16 bg-[#D4AF37] mx-auto mt-2"></div>
+        </div>
+
+        <div class="step-card">
+            <h4 class="font-bold gold-text">1. USER SELECTION</h4>
+            <p class="text-xs text-gray-300">Har player 1 se 10 ke beech ek number chunega. Agar number chun liya gaya hai toh woh dusre ke liye black ho jayega.</p>
+        </div>
+
+        <div class="step-card">
+            <h4 class="font-bold gold-text">2. ALL PLAYERS JOINED</h4>
+            <p class="text-xs text-gray-300">Jab table full ho jayegi (10 Players), tabhi game start hoga.</p>
+        </div>
+
+        <div class="step-card">
+            <h4 class="font-bold gold-text">3. RANDOM REMOVAL</h4>
+            <p class="text-xs text-gray-300">Ek natural spin hoga jisme <span class="text-red-500">2 numbers RAD (Eliminate)</span> honge. Baaki 8 players winner honge!</p>
+            <div class="mt-2 opacity-50">
+                <span class="number-box">1</span> <span class="number-box red-rad">2</span> <span class="number-box">3</span> <span class="number-box red-rad">8</span>
+            </div>
+        </div>
+
+        <button onclick="showDashboard()" class="w-full mt-6 p-4 rounded-xl gold-bg font-bold">I UNDERSTAND</button>
+    </div>
+
+    <div id="dashboard" class="hidden w-full max-w-md">
+        <div class="flex justify-between items-center p-5 gold-border rounded-2xl bg-[#111] mb-6 shadow-xl">
+            <div>
+                <p class="text-[10px] text-gray-500 uppercase">Wallet Balance</p>
+                <p class="text-3xl font-black gold-text italic">₹2.00</p>
+            </div>
+            <div class="text-right">
+                <span class="bg-green-900 text-green-400 text-[10px] px-2 py-1 rounded-full font-bold">LIVE TEST MODE</span>
+            </div>
+        </div>
+
+        <div class="p-8 rounded-3xl bg-[#111] border border-gray-800 text-center relative overflow-hidden">
+            <div class="absolute top-0 right-0 bg-[#D4AF37] text-black text-[10px] px-3 py-1 font-bold">LEVEL 1</div>
+            <h3 class="text-xl font-bold mb-2">10 PLAYERS TABLE</h3>
+            <p class="text-gray-500 text-sm mb-6 font-medium">Bet: ₹10 - ₹50</p>
+            <button class="w-full p-4 rounded-xl border border-[#D4AF37] text-[#D4AF37] font-bold opacity-70">
+                LOBBY OPENING SOON
+            </button>
+        </div>
     </div>
 
     <script>
         function checkLogin() {
             const phone = document.getElementById('phone').value;
-            if(phone.length === 10) {
-                alert("Account Verified! Connecting to Win-Eight Servers...");
-                // Next step mein Dashboard ka code connect karenge
+            const pin = document.getElementById('pin').value;
+            if(phone.length >= 10 && pin === "1234") {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('intro-screen').classList.remove('hidden');
             } else {
-                alert("Please enter a valid 10-digit mobile number.");
+                alert("Please enter a valid number and PIN: 1234");
             }
+        }
+
+        function showDashboard() {
+            document.getElementById('intro-screen').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
         }
     </script>
 </body>
