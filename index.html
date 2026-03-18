@@ -3,104 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Win-Eight Elite</title>
+    <title>Win-Eight Official Elite</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root { --gold: #facc15; --red: #ef4444; --bg: #050505; }
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
-        .luxury-card { background: #111; border: 1px solid #222; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.7); }
-        .gold-btn { background: linear-gradient(to right, #b48b1d, #facc15); color: #000; font-weight: 800; border-radius: 12px; transition: 0.3s; }
-        .gold-btn:active { transform: scale(0.95); }
-        .intro-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        
+        /* Luxury Gradient Background */
+        .luxury-bg { background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%); min-height: 100vh; }
+        .luxury-card { background: linear-gradient(145deg, #0f0f0f, #141414); border: 1px solid #222; border-radius: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.9); }
+        .gold-btn { background: linear-gradient(135deg, #b48b1d, #facc15, #b48b1d); color: #000; font-weight: 900; border-radius: 14px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .gold-btn:active { transform: scale(0.96); }
+
+        /* Intro Overlay - No Skip */
+        #intro-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        
+        /* Smooth Animations */
+        .fade-in { animation: fadeIn 0.6s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body>
+<body class="luxury-bg">
 
     <div id="app" class="max-w-md mx-auto min-h-screen">
         
-        <div id="screen-login" class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+        <div id="screen-login" class="min-h-screen flex flex-col items-center justify-center p-6 text-center fade-in">
             <h1 class="text-6xl font-black italic mb-2 text-red-600 tracking-tighter">WIN-EIGHT</h1>
-            <p class="text-[10px] tracking-[5px] text-gray-500 mb-12 uppercase">1 Device • 1 Account</p>
+            <p class="text-[10px] tracking-[6px] text-gray-500 mb-12 uppercase font-bold">Premium Gaming Arena</p>
             
             <div class="luxury-card w-full p-8">
-                <input type="number" id="phone" placeholder="Enter Mobile Number" class="w-full bg-transparent border-b-2 border-zinc-800 focus:border-yellow-500 p-4 mb-8 outline-none text-center text-2xl tracking-widest text-white">
-                <button onclick="handleLogin()" class="gold-btn w-full py-4 uppercase text-sm tracking-widest">Verify & Get ₹2 Bonus</button>
+                <p class="text-[10px] text-yellow-500 font-bold mb-6 uppercase tracking-widest">Device Verification</p>
+                <input type="number" id="phone" placeholder="Mobile Number" class="w-full bg-transparent border-b-2 border-zinc-800 focus:border-yellow-500 p-4 mb-8 outline-none text-center text-2xl tracking-[4px] text-white">
+                <button onclick="processLogin()" class="gold-btn w-full py-5 shadow-lg shadow-yellow-500/10">Get OTP & ₹2 Bonus</button>
             </div>
+            <p class="mt-8 text-[9px] text-zinc-700 uppercase tracking-widest">1 Device • 1 Account Policy</p>
         </div>
 
-        <div id="screen-intro" class="intro-overlay hidden">
-            <div class="luxury-card p-8 w-full text-center">
-                <h2 class="text-3xl font-black text-yellow-500 mb-4 italic">KAISE KHELTE HAIN?</h2>
-                <div class="text-gray-400 text-sm space-y-4 mb-10 text-left">
-                    <p>1. Apna Lucky Number chunein.</p>
-                    <p>2. Round khatam hone par 2 numbers gayab honge.</p>
-                    <p>3. Agar aapka number bach gaya, toh aap **Winaer** hain!</p>
-                    <p class="text-red-500 font-bold">⚠️ Ek mobile mein ek hi account chalega.</p>
+        <div id="intro-overlay" class="hidden">
+            <div class="luxury-card p-8 w-full text-center border-yellow-500/20 fade-in">
+                <div id="step-1">
+                    <h2 class="text-3xl font-black text-yellow-500 mb-6 italic">KAISE KHELEIN?</h2>
+                    <div class="text-zinc-400 text-sm space-y-4 mb-10 text-left leading-relaxed">
+                        <p>🔹 <span class="text-white font-bold">Number Chuno:</span> 1 se 10 mein se koi bhi.</p>
+                        <p>🔹 <span class="text-white font-bold">Spin Result:</span> 2 random numbers hataye jayenge.</p>
+                        <p>🔹 <span class="text-white font-bold">Jeet:</span> Agar aapka number bach gaya, toh aap jeet gaye!</p>
+                    </div>
+                    <button onclick="nextIntroStep()" class="gold-btn w-full py-4 text-sm">Next: Withdrawal Rules</button>
                 </div>
-                <button onclick="showDashboard()" class="gold-btn w-full py-4 rounded-xl">SAMJH GAYA, START GAME</button>
+
+                <div id="step-2" class="hidden">
+                    <h2 class="text-3xl font-black text-red-600 mb-6 italic">WITHDRAW RULES</h2>
+                    <div class="text-zinc-400 text-sm space-y-4 mb-10 text-left leading-relaxed">
+                        <p>💰 <span class="text-white font-bold">Min Withdraw:</span> Pehli 2-3 baar ₹50 par.</p>
+                        <p>📈 <span class="text-white font-bold">Limit Increase:</span> Uske baad ₹100 par withdraw hoga.</p>
+                        <p>🤝 <span class="text-white font-bold">Referral:</span> Link share karein aur ₹2 extra payein.</p>
+                    </div>
+                    <button onclick="finishIntro()" class="gold-btn w-full py-4 text-sm">Samjh Gaya, Start Game</button>
+                </div>
             </div>
         </div>
 
-        <div id="screen-dashboard" class="hidden p-4">
+        <div id="screen-dashboard" class="hidden p-4 fade-in">
             <div class="luxury-card p-6 flex justify-between items-center mb-6 border-yellow-500/20">
                 <div>
-                    <p class="text-[10px] text-gray-500 uppercase tracking-widest">Total Balance</p>
-                    <h2 class="text-4xl font-black text-yellow-500">₹<span id="balance">2.00</span></h2>
+                    <p class="text-[10px] text-zinc-500 uppercase tracking-widest">Balance</p>
+                    <h2 class="text-4xl font-black text-yellow-500">₹2.00</h2>
                 </div>
-                <button class="bg-red-600/20 text-red-500 px-4 py-2 rounded-lg border border-red-600/50 text-[10px] font-bold">WITHDRAW</button>
+                <button onclick="alert('Minimum withdrawal ₹50 required')" class="bg-red-600/10 text-red-500 px-4 py-2 rounded-xl border border-red-600/30 text-[10px] font-black uppercase">Withdraw</button>
             </div>
 
-            <div class="luxury-card p-5 mb-6 border-green-900/30">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <p class="text-green-500 font-bold text-xs uppercase">Refer & Earn ₹2</p>
-                        <p class="text-[9px] text-gray-500">Dost download karega toh ₹2 milenge</p>
-                    </div>
-                    <button onclick="copyRef()" class="bg-zinc-900 text-white px-4 py-2 rounded text-[10px] border border-zinc-700">Copy Link</button>
-                </div>
-            </div>
-
-            <div class="luxury-card p-8 text-center relative overflow-hidden" onclick="alert('Table Joining...')">
-                <div class="absolute top-0 right-0 bg-red-600 text-white px-3 py-1 text-[9px] font-bold">LIVE</div>
+            <div class="luxury-card p-8 relative overflow-hidden group active:scale-95 transition-all" onclick="alert('Joining Gold Arena...')">
+                <div class="absolute top-0 right-0 bg-yellow-500 text-black px-4 py-1 text-[10px] font-black rounded-bl-xl uppercase">Beginner</div>
                 <h3 class="text-2xl font-black italic mb-1">GOLD ARENA</h3>
-                <p class="text-gray-500 text-[10px] mb-6 uppercase tracking-widest">Min Bet: ₹4 | Max: ₹50</p>
-                <button class="w-full py-4 rounded-xl bg-yellow-500/10 border border-yellow-500 text-yellow-500 font-bold uppercase text-xs">Play Level 1</button>
+                <p class="text-zinc-500 text-[10px] mb-8 tracking-[3px] uppercase">Entry: ₹4 - ₹50 | 10 Players</p>
+                <div class="w-full py-4 rounded-xl bg-zinc-900/50 border border-yellow-500/20 text-yellow-500 font-black text-xs uppercase text-center tracking-widest">Play Now</div>
+            </div>
+
+            <div class="mt-6 luxury-card p-4 flex items-center justify-between border-green-900/20">
+                <p class="text-[10px] text-zinc-400 font-bold uppercase">Refer & Earn ₹2 Extra</p>
+                <button class="text-green-500 text-[10px] font-black underline tracking-tighter" onclick="copyReferral()">Copy Link</button>
             </div>
         </div>
-
     </div>
 
     <script>
-        // Check if user already logged in (1 mobile 1 game logic)
+        // Check 1 Device 1 Account
         window.onload = function() {
-            if(localStorage.getItem('win8_user')) {
-                // Agar pehle se login hai toh seedha dashboard dikhao
-                showDashboard();
+            if(localStorage.getItem('win8_logged_in')) {
+                document.getElementById('screen-login').classList.add('hidden');
+                document.getElementById('screen-dashboard').classList.remove('hidden');
             }
         }
 
-        function handleLogin() {
+        function processLogin() {
             let phone = document.getElementById('phone').value;
-            if(phone.length < 10) { alert("Mobile number sahi nahi hai!"); return; }
+            if(phone.length < 10) return alert("Mobile number sahi nahi hai!");
             
-            // Save device lock
-            localStorage.setItem('win8_user', phone);
+            localStorage.setItem('win8_logged_in', 'true');
+            localStorage.setItem('win8_phone', phone);
             
-            // Show Intro
             document.getElementById('screen-login').classList.add('hidden');
-            document.getElementById('screen-intro').classList.remove('hidden');
+            document.getElementById('intro-overlay').classList.remove('hidden');
         }
 
-        function showDashboard() {
-            document.getElementById('screen-login').classList.add('hidden');
-            document.getElementById('screen-intro').classList.add('hidden');
+        function nextIntroStep() {
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.remove('hidden');
+        }
+
+        function finishIntro() {
+            document.getElementById('intro-overlay').classList.add('hidden');
             document.getElementById('screen-dashboard').classList.remove('hidden');
         }
 
-        function copyRef() {
-            let link = "https://glistening-salamander-e8529b.netlify.app/?ref=" + localStorage.getItem('win8_user');
+        function copyReferral() {
+            let phone = localStorage.getItem('win8_phone') || 'user';
+            let link = "https://glistening-salamander-e8529b.netlify.app/?ref=" + phone;
             navigator.clipboard.writeText(link);
-            alert("Referral Link Copied: " + link);
+            alert("Referral Link Copied!");
         }
     </script>
 </body>
